@@ -158,6 +158,37 @@ var useAuthState = (function (auth$1, options) {
     return [value, loading, error];
 });
 
+var useConfirmPasswordReset = (function (auth$1) {
+    var _a = react.useState(), error = _a[0], setError = _a[1];
+    var _b = react.useState(false), loading = _b[0], setLoading = _b[1];
+    var confirmPasswordReset = react.useCallback(function (oobCode, newPassword) { return __awaiter(void 0, void 0, void 0, function () {
+        var err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    setLoading(true);
+                    setError(undefined);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, 4, 5]);
+                    return [4 /*yield*/, auth.confirmPasswordReset(auth$1, oobCode, newPassword)];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, true];
+                case 3:
+                    err_1 = _a.sent();
+                    setError(err_1);
+                    return [2 /*return*/, false];
+                case 4:
+                    setLoading(false);
+                    return [7 /*endfinally*/];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); }, [auth$1]);
+    return [confirmPasswordReset, loading, error];
+});
+
 var useCreateUserWithEmailAndPassword = (function (auth$1, options) {
     var _a = react.useState(), error = _a[0], setError = _a[1];
     var _b = react.useState(), registeredUser = _b[0], setRegisteredUser = _b[1];
@@ -229,6 +260,39 @@ var useDeleteUser = (function (auth) {
         });
     }); }, [auth]);
     return [deleteUser, loading, error];
+});
+
+var useIdToken = (function (auth$1, options) {
+    var _a = useLoadingValue(function () { return auth$1.currentUser; }), error = _a.error, loading = _a.loading, setError = _a.setError, setValue = _a.setValue, value = _a.value;
+    react.useEffect(function () {
+        var listener = auth.onIdTokenChanged(auth$1, function (user) { return __awaiter(void 0, void 0, void 0, function () {
+            var e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(options === null || options === void 0 ? void 0 : options.onUserChanged)) return [3 /*break*/, 4];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, options.onUserChanged(user)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        setError(e_1);
+                        return [3 /*break*/, 4];
+                    case 4:
+                        setValue(user);
+                        return [2 /*return*/];
+                }
+            });
+        }); }, setError);
+        return function () {
+            listener();
+        };
+    }, [auth$1]);
+    return [value, loading, error];
 });
 
 var useSendEmailVerification = (function (auth$1) {
@@ -665,40 +729,8 @@ var useVerifyBeforeUpdateEmail = function (auth$1) {
     return [verifyBeforeUpdateEmail, loading, error];
 };
 
-var useIdToken = (function (auth$1, options) {
-    var _a = useLoadingValue(function () { return auth$1.currentUser; }), error = _a.error, loading = _a.loading, setError = _a.setError, setValue = _a.setValue, value = _a.value;
-    react.useEffect(function () {
-        var listener = auth.onIdTokenChanged(auth$1, function (user) { return __awaiter(void 0, void 0, void 0, function () {
-            var e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(options === null || options === void 0 ? void 0 : options.onUserChanged)) return [3 /*break*/, 4];
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, options.onUserChanged(user)];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _a.sent();
-                        setError(e_1);
-                        return [3 /*break*/, 4];
-                    case 4:
-                        setValue(user);
-                        return [2 /*return*/];
-                }
-            });
-        }); }, setError);
-        return function () {
-            listener();
-        };
-    }, [auth$1]);
-    return [value, loading, error];
-});
-
 exports.useAuthState = useAuthState;
+exports.useConfirmPasswordReset = useConfirmPasswordReset;
 exports.useCreateUserWithEmailAndPassword = useCreateUserWithEmailAndPassword;
 exports.useDeleteUser = useDeleteUser;
 exports.useIdToken = useIdToken;

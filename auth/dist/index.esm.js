@@ -1,4 +1,4 @@
-import { onAuthStateChanged, sendEmailVerification, createUserWithEmailAndPassword, sendPasswordResetEmail, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithEmailLink, FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, OAuthProvider, signInWithPopup, updateEmail, updatePassword, updateProfile, verifyBeforeUpdateEmail, onIdTokenChanged } from 'firebase/auth';
+import { onAuthStateChanged, confirmPasswordReset, sendEmailVerification, createUserWithEmailAndPassword, onIdTokenChanged, sendPasswordResetEmail, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithEmailLink, FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, OAuthProvider, signInWithPopup, updateEmail, updatePassword, updateProfile, verifyBeforeUpdateEmail } from 'firebase/auth';
 import { useMemo, useReducer, useCallback, useEffect, useState } from 'react';
 
 /*! *****************************************************************************
@@ -154,6 +154,37 @@ var useAuthState = (function (auth, options) {
     return [value, loading, error];
 });
 
+var useConfirmPasswordReset = (function (auth) {
+    var _a = useState(), error = _a[0], setError = _a[1];
+    var _b = useState(false), loading = _b[0], setLoading = _b[1];
+    var confirmPasswordReset$1 = useCallback(function (oobCode, newPassword) { return __awaiter(void 0, void 0, void 0, function () {
+        var err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    setLoading(true);
+                    setError(undefined);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, 4, 5]);
+                    return [4 /*yield*/, confirmPasswordReset(auth, oobCode, newPassword)];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, true];
+                case 3:
+                    err_1 = _a.sent();
+                    setError(err_1);
+                    return [2 /*return*/, false];
+                case 4:
+                    setLoading(false);
+                    return [7 /*endfinally*/];
+                case 5: return [2 /*return*/];
+            }
+        });
+    }); }, [auth]);
+    return [confirmPasswordReset$1, loading, error];
+});
+
 var useCreateUserWithEmailAndPassword = (function (auth, options) {
     var _a = useState(), error = _a[0], setError = _a[1];
     var _b = useState(), registeredUser = _b[0], setRegisteredUser = _b[1];
@@ -225,6 +256,39 @@ var useDeleteUser = (function (auth) {
         });
     }); }, [auth]);
     return [deleteUser, loading, error];
+});
+
+var useIdToken = (function (auth, options) {
+    var _a = useLoadingValue(function () { return auth.currentUser; }), error = _a.error, loading = _a.loading, setError = _a.setError, setValue = _a.setValue, value = _a.value;
+    useEffect(function () {
+        var listener = onIdTokenChanged(auth, function (user) { return __awaiter(void 0, void 0, void 0, function () {
+            var e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(options === null || options === void 0 ? void 0 : options.onUserChanged)) return [3 /*break*/, 4];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, options.onUserChanged(user)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        setError(e_1);
+                        return [3 /*break*/, 4];
+                    case 4:
+                        setValue(user);
+                        return [2 /*return*/];
+                }
+            });
+        }); }, setError);
+        return function () {
+            listener();
+        };
+    }, [auth]);
+    return [value, loading, error];
 });
 
 var useSendEmailVerification = (function (auth) {
@@ -661,37 +725,4 @@ var useVerifyBeforeUpdateEmail = function (auth) {
     return [verifyBeforeUpdateEmail$1, loading, error];
 };
 
-var useIdToken = (function (auth, options) {
-    var _a = useLoadingValue(function () { return auth.currentUser; }), error = _a.error, loading = _a.loading, setError = _a.setError, setValue = _a.setValue, value = _a.value;
-    useEffect(function () {
-        var listener = onIdTokenChanged(auth, function (user) { return __awaiter(void 0, void 0, void 0, function () {
-            var e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(options === null || options === void 0 ? void 0 : options.onUserChanged)) return [3 /*break*/, 4];
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, options.onUserChanged(user)];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _a.sent();
-                        setError(e_1);
-                        return [3 /*break*/, 4];
-                    case 4:
-                        setValue(user);
-                        return [2 /*return*/];
-                }
-            });
-        }); }, setError);
-        return function () {
-            listener();
-        };
-    }, [auth]);
-    return [value, loading, error];
-});
-
-export { useAuthState, useCreateUserWithEmailAndPassword, useDeleteUser, useIdToken, useSendEmailVerification, useSendPasswordResetEmail, useSendSignInLinkToEmail, useSignInWithApple, useSignInWithEmailAndPassword, useSignInWithEmailLink, useSignInWithFacebook, useSignInWithGithub, useSignInWithGoogle, useSignInWithMicrosoft, useSignInWithTwitter, useSignInWithYahoo, useSignOut, useUpdateEmail, useUpdatePassword, useUpdateProfile, useVerifyBeforeUpdateEmail };
+export { useAuthState, useConfirmPasswordReset, useCreateUserWithEmailAndPassword, useDeleteUser, useIdToken, useSendEmailVerification, useSendPasswordResetEmail, useSendSignInLinkToEmail, useSignInWithApple, useSignInWithEmailAndPassword, useSignInWithEmailLink, useSignInWithFacebook, useSignInWithGithub, useSignInWithGoogle, useSignInWithMicrosoft, useSignInWithTwitter, useSignInWithYahoo, useSignOut, useUpdateEmail, useUpdatePassword, useUpdateProfile, useVerifyBeforeUpdateEmail };
