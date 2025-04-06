@@ -4,19 +4,24 @@ export {
   SignInWithPopupHook,
 } from './types';
 export { AuthStateHook, default as useAuthState } from './useAuthState';
-export { default as useCreateUserWithEmailAndPassword } from './useCreateUserWithEmailAndPassword';
-export { default as useDeleteUser, DeleteUserHook } from './useDeleteUser';
 export {
-  default as useSendEmailVerification,
+  ConfirmPasswordResetHook,
+  default as useConfirmPasswordReset,
+} from './useConfirmPasswordReset';
+export { default as useCreateUserWithEmailAndPassword } from './useCreateUserWithEmailAndPassword';
+export { DeleteUserHook, default as useDeleteUser } from './useDeleteUser';
+export { IdTokenHook, default as useIdToken } from './useIdToken';
+export {
   SendEmailVerificationHook,
+  default as useSendEmailVerification,
 } from './useSendEmailVerification';
 export {
-  default as useSendPasswordResetEmail,
   SendPasswordResetEmailHook,
+  default as useSendPasswordResetEmail,
 } from './useSendPasswordResetEmail';
 export {
-  default as useSendSignInLinkToEmail,
   SendSignInLinkToEmailHook,
+  default as useSendSignInLinkToEmail,
 } from './useSendSignInLinkToEmail';
 export { default as useSignInWithEmailAndPassword } from './useSignInWithEmailAndPassword';
 export { default as useSignInWithEmailLink } from './useSignInWithEmailLink';
@@ -29,7 +34,7 @@ export {
   useSignInWithTwitter,
   useSignInWithYahoo,
 } from './useSignInWithPopup';
-export { default as useSignOut, SignOutHook } from './useSignOut';
+export { SignOutHook, default as useSignOut } from './useSignOut';
 export {
   UpdateEmailHook,
   UpdatePasswordHook,
@@ -40,4 +45,3 @@ export {
   useVerifyBeforeUpdateEmail,
   VerifyBeforeUpdateEmailHook,
 } from './useUpdateUser';
-export { default as useIdToken, IdTokenHook } from './useIdToken';
