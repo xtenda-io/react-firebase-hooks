@@ -15,7 +15,7 @@ export default (auth: Auth): ConfirmPasswordResetHook => {
   const [error, setError] = useState<AuthError>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const sendPasswordResetEmail = useCallback(
+  const confirmPasswordReset = useCallback(
     async (oobCode: string, newPassword: string) => {
       setLoading(true);
       setError(undefined);
@@ -32,5 +32,5 @@ export default (auth: Auth): ConfirmPasswordResetHook => {
     [auth]
   );
 
-  return [sendPasswordResetEmail, loading, error];
+  return [confirmPasswordReset, loading, error];
 };
